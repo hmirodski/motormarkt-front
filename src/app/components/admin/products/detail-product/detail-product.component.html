@@ -1,0 +1,55 @@
+<app-menu></app-menu>
+
+<div class="container margin">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <div class="ms-3">
+                                <div>
+                                    <h4 class="card-title mb-2">Referencia: {{ product().reference }}</h4>
+                                </div>
+                                <div class="row my-4">
+                                    <div class="col-md-12">
+                                        <div>
+                                            <p class="mb-2 fw-medium"><i class="mdi mdi-email-outline me-2"></i>Nombre: {{ product().name }}</p>
+                                            <p class="mb-2 fw-medium"><i class="mdi mdi-email-outline me-2"></i>Descripción: {{ product().description }}</p>
+                                            <p class="mb-2 fw-medium"><i class="mdi mdi-email-outline me-2"></i>Precio: {{ product().price }} €</p>
+                                            <p class="mb-2 fw-medium"><i class="mdi mdi-email-outline me-2"></i>Cantidad: {{ product().quantity }}</p>
+                                            <p class="mb-2 fw-medium"><i class="mdi mdi-email-outline me-2"></i>Categoría: {{ product().category?.name }}</p>
+                                            <button type="button" class="btn btn-info btn-sm margin-lados" [routerLink]="['/admin/products/edit', product().id]">Editar</button>
+                                            <button type="button" class="btn btn-danger btn-sm" (click)="onClickDelete(product().id)">Eliminar</button>
+                                        </div>
+                                    </div><!-- end col -->
+                                </div><!-- end row -->
+                            </div>
+                        </div><!-- end col -->
+                    </div><!-- end row -->
+                </div><!-- end card body -->
+            </div><!-- end card -->
+    
+            <div class="card">
+                <div class="tab-content p-4">
+                
+                    <div class="tab-pane active show" id="tasks-tab" role="tabpanel">
+                        <h4 class="card-title mb-4">Imágenes</h4>
+    
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div *ngIf="arrImagesProduct() && arrImagesProduct().length > 0" class="div-images margin">
+                                    <div *ngFor="let image of arrImagesProduct()" class="div-image margin-lados">
+                                        <img src="{{ API_URL() }}/api/v1/images_product/static/{{ image.name }}" alt="Imagen" width="250px" style="max-width: 250px;">
+                                    </div>
+                                </div>
+                            </div><!-- end col -->
+                        </div><!-- end row -->
+                    </div><!-- end tab pane -->
+    
+                    
+                </div>
+            </div><!-- end card -->
+        </div><!-- end col -->
+    </div>
+    </div>

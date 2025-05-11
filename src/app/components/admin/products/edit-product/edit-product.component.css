@@ -1,0 +1,14 @@
+.div-images {
+    display: flex;
+}
+
+.div-image {
+    display: grid;
+}
+
+.imagen-pequena {
+    width: 150px; /* Puedes ajustar el tamaño según tus necesidades */
+    height: 150px; /* Ajusta el tamaño proporcionalmente si lo deseas */
+    object-fit: cover; /* Esta propiedad ayuda a mantener la proporción de la imagen */
+    margin: 5px; /* Añade margen entre las imágenes si lo deseas */
+  }

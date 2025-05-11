@@ -1,0 +1,36 @@
+<app-menu></app-menu>
+
+<div class="container ">
+    <button type="button" class="btn btn-secondary margin" [routerLink]="['/admin/categories/new']">Nueva categoría</button>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Fecha creación</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>  
+          <tr *ngFor="let category of arrCategories()">
+            <th scope="row">{{ category.id }}</th>
+            <td>{{ category.name }}</td>
+            <td>{{ category.description }}</td>
+            <td>{{ category.created_at | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+            <td>
+              <button class="btn btn-info btn-sm" [routerLink]="['/admin/categories/edit', category.id]">Editar</button>
+              <button class="btn btn-danger btn-sm" (click)="onClickDelete(category.id)">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+    </table>
+  
+    <nav aria-label="Page navigation example">
+      <small>Página {{ currentPage }} de {{ getTotalPages() }}</small>
+      <ul class="pagination">
+        <li class="page-item" ><button class="page-link" (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button></li>
+        <li class="page-item"><button class="page-link" (click)="nextPage()" [disabled]="currentPage === getTotalPages()">Siguiente</button></li>
+      </ul>
+    </nav>
+</div>

@@ -1,0 +1,160 @@
+<app-menu></app-menu>
+
+<div class="container margin">
+    <div class="row">
+        <div class="col-xl-8">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <div class="row align-items-center">
+                        
+                        <div class="col-md-12">
+                            <div class="ms-3">
+                                <div>
+                                    <h4 class="card-title mb-2">PEDIDO# {{ order().reference }}</h4>
+                                    <span>Fecha: {{ order().created_at | date:'yyyy-MM-dd HH:mm:ss' }}</span>
+
+                                </div>
+                                <div class="row my-4">
+                                    <div class="col-md-12">
+                                        <div>
+                                            <p class="text-muted mb-2 fw-medium"><i class="mdi mdi-email-outline me-2"></i>Método de pago: {{ order().payment }}
+                                            </p>
+                                        </div>
+                                    </div><!-- end col -->
+                                </div><!-- end row -->
+                            </div>
+                        </div><!-- end col -->
+                    </div><!-- end row -->
+                </div><!-- end card body -->
+            </div><!-- end card -->
+    
+            <div class="card">
+                <div class="tab-content p-4">
+                    
+    
+                    <div class="tab-pane active show" id="tasks-tab" role="tabpanel">
+                        <h4 class="card-title mb-4">Productos</h4>
+    
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <table class="table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col"></th>
+                                            <th scope="col">Cantidad</th>
+                                            <th scope="col">Precio unitario</th>
+                                            <th scope="col">Precio total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let order_line of order_lines()">
+                                            <th>
+                                                <img *ngIf="order_line.product.images.length === 0" src="https://www.4me.com/wp-content/uploads/2018/01/4me-icon-product.png"
+                                                    alt="product" class="" width="80">
+    
+                                                <img *ngIf="order_line.product.images.length > 0" src="{{ API_URL() }}/api/v1/images_product/static/{{ order_line.product.images[0].name }}"
+                                                    alt="product" class="" width="80">
+                                            </th>
+                                            <td>{{ order_line.product.name }}</td>
+                                            <td>{{ order_line.quantity }}</td>
+                                            <td><strong>{{ order_line.price_unit }} €</strong></td>
+                                            <td><strong>{{ order_line.total_price }} €</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="4">
+                                                <span>Estado:</span>
+                                                <span class="badge badge-success">PAGADO</span>
+                                            </th>
+                                            <td>
+                                                <span class="text-muted">Precio total</span>
+                                                <strong> {{ order().total_price }} €</strong>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div><!-- end col -->
+                        </div><!-- end row -->
+                    </div><!-- end tab pane -->
+    
+                    
+                </div>
+            </div><!-- end card -->
+        </div><!-- end col -->
+    
+        <div class="col-xl-4">
+    
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <h4 class="card-title mb-4">Datos del cliente</h4>
+                        <div class="table-responsive">
+                            <table class="table table-bordered mb-0">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row" style="font-size: smaller;">Nombre</th>
+                                        <td><small>{{ order().user?.name }}</small></td>
+                                    </tr><!-- end tr -->
+                                    <tr>
+                                        <th scope="row" style="font-size: smaller;">Email</th>
+                                        <td><small>{{ order().user?.email }}</small></td>
+                                    </tr><!-- end tr -->
+                                    <tr>
+                                        <th scope="row" style="font-size: smaller;">Dirección 1</th>
+                                        <td><small>{{ order().user?.address1 }}</small></td>
+                                    </tr><!-- end tr -->
+                                    <tr>
+                                        <th scope="row" style="font-size: smaller;">Dirección 2</th>
+                                        <td><small>{{ order().user?.address2 }}</small></td>
+                                    </tr><!-- end tr -->
+                                    <tr>
+                                        <th scope="row" style="font-size: smaller;">Ciudad</th>
+                                        <td><small>{{ order().user?.city }}</small></td>
+                                    </tr><!-- end tr -->
+                                    <tr>
+                                        <th scope="row" style="font-size: smaller;">CP</th>
+                                        <td><small>{{ order().user?.postcode }}</small></td>
+                                    </tr><!-- end tr -->
+                                    <tr>
+                                        <th scope="row" style="font-size: smaller;">País</th>
+                                        <td><small>{{ order().user?.country }}</small></td>
+                                    </tr><!-- end tr -->
+                                    <tr>
+                                        <th scope="row" style="font-size: smaller;">Teléfono</th>
+                                        <td><small>{{ order().user?.phone }}</small></td>
+                                    </tr><!-- end tr -->
+                                </tbody><!-- end tbody -->
+                            </table><!-- end table -->
+                        </div>
+                    </div>
+                </div><!-- end card body -->
+            </div><!-- end card -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h4>Cambiar estado</h4>
+                    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                        <div class="form-group">
+                            <label for="quantity">Categoría</label>
+                            <select class="form-control" aria-label="Default select example" formControlName="state">
+                                <option *ngFor="let state of states()" [value]="state.id" style="background-color: {{ state.color }};">{{ state.name }}</option>
+                            </select>
+                        </div>
+                        <input type="submit" class="btn btn-outline-dark btn-sm" value="Cambiar">
+                    </form>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h4>Estados</h4>
+                        <ul class="timeline">
+                            <li *ngFor="let state_order of states_order(); let first = first" [ngClass]="{'active': first}">
+                                <h6 style="padding: 5px 5px ;border-radius: 10px;background-color: {{ state_order.state.color }};">{{ state_order.state.name }}</h6>
+                                <p class="text-muted">{{ state_order.created_at | date:'yyyy-MM-dd HH:mm:ss' }}</p>
+                            </li>
+                        </ul>
+                </div>
+            </div>
+        </div><!-- end col -->
+    </div>
+    </div>

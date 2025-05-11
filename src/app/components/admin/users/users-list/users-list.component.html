@@ -1,0 +1,40 @@
+<app-menu></app-menu>
+
+<div class="container ">
+    <button type="button" class="btn btn-secondary margin" [routerLink]="['/admin/users/new']">Nuevo usuario</button>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Email</th>
+            <th scope="col">Activo</th>
+            <th scope="col">Admin</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Fecha creación</th>
+          </tr>
+        </thead>
+        <tbody>  
+          <tr *ngFor="let user of arrUsers()" [routerLink]="['/admin/users', user.id]">
+            <th scope="row">{{ user.id }}</th>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td *ngIf="user.active"><i class="bx bx-check-circle" style="color: green"></i></td>
+            <td *ngIf="!user.active"><i class="bx bx-circle" style="color: red;"></i></td>
+            <td *ngIf="user.admin"><i class="bx bx-check-circle" style="color: green"></i></td>
+            <td *ngIf="!user.admin"><i class="bx bx-circle" style="color: red"></i></td>
+            <td *ngIf="user.client"><i class="bx bx-check-circle" style="color: green"></i></td>
+            <td *ngIf="!user.client"><i class="bx bx-circle" style="color: red"></i></td>
+            <td>{{ user.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+          </tr>
+        </tbody>
+    </table>
+  
+    <nav aria-label="Page navigation example">
+      <small>Página {{ currentPage }} de {{ getTotalPages() }}</small>
+      <ul class="pagination">
+        <li class="page-item" ><button class="page-link" (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button></li>
+        <li class="page-item"><button class="page-link" (click)="nextPage()" [disabled]="currentPage === getTotalPages()">Siguiente</button></li>
+      </ul>
+    </nav>
+</div>

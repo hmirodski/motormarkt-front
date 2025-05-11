@@ -1,0 +1,23 @@
+<div class="container margin">
+    <h3 *ngIf="categoryName()">{{ categoryName() }}</h3>
+    <h5 *ngIf="notResults()">{{ notResults() }}</h5>
+    <div class="row">
+      <div *ngFor="let product of arrProducts()" class="col-12 col-sm-8 col-md-6 col-lg-3 margin">
+        
+        <div class="card">
+          <img *ngIf="product.images && product.images.length > 0" class="card-img" src="{{ API_URL() }}/api/v1/images_product/static/{{ product.images[0].name }}" alt="Vans">
+          <img *ngIf="!product.images || product.images.length === 0" class="card-img" src="https://www.4me.com/wp-content/uploads/2018/01/4me-icon-product.png" alt="Vans">
+          <div class="card-body">
+            <h4 class="card-title" [routerLink]="['/products', product.id]">{{ product.name }}</h4>
+            <h6 class="card-subtitle mb-2 text-muted">REF: {{ product.reference }}</h6>
+            <p class="card-text" style="height: 100px;">
+              {{ product.description | slice:0:125 }} ...</p>
+            <div class="buy d-flex justify-content-between align-items-center">
+              <div class="price text-black"><h6 class="mt-4">{{ product.price }} €</h6></div>
+               <button type="button" (click)="addCart(product)" class="btn btn-dark mt-3"><i class="fas fa-shopping-cart"></i> Añadir al carrito</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

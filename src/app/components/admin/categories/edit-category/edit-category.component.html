@@ -1,0 +1,20 @@
+<app-menu></app-menu>
+
+<div class="container margin">
+    <h3>Editar categoría</h3>
+    <div class="row">
+        <div class="col-12">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="name">Nombre</label>
+                    <input type="text" class="form-control" formControlName="name">
+                </div>
+                <div class="form-group">
+                    <label for="description">Descripción</label>
+                    <input type="text" class="form-control" formControlName="description">
+                </div>
+                <input type="submit" class="btn btn-primary" value="Actualizar">
+            </form>
+        </div>
+    </div>
+</div>

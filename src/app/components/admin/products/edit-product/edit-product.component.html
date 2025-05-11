@@ -1,0 +1,69 @@
+<app-menu></app-menu>
+
+<div class="container margin">
+    <h3>Editar producto</h3>
+    <button type="button" class="btn btn-info btn-sm" [routerLink]="['/admin/products', productId()]">Detalle producto</button>
+
+    <div class="row">
+        <div class="col-12">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="reference">Referencia</label>
+                            <input type="text" class="form-control" formControlName="reference">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="name">Nombre</label>
+                            <input type="text" class="form-control" formControlName="name">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="description">Descripción</label>
+                            <textarea class="form-control" formControlName="description" rows="4" cols="50"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="price">Precio</label>
+                            <input type="number" class="form-control" formControlName="price">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="quantity">Cantidad</label>
+                            <input type="number" class="form-control" formControlName="quantity">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="quantity">Categoría</label>
+                            <select class="form-control" aria-label="Default select example" formControlName="category">
+                                <option *ngFor="let category of arrCategories()" [value]="category.id">{{ category.name }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="images">Imágenes</label>
+                    <input type="file" class="form-control" (change)="onFileSelected($event)" multiple>
+                </div>
+                <div class="div-images margin">
+                    <div *ngFor="let image of arrImagesProduct()" class="div-image margin-lados">
+                        <img src="{{ API_URL() }}/api/v1/images_product/static/{{ image.name }}" alt="Imagen" class="imagen-pequena">
+                        <button type="button" (click)="onClickDelete(image.id)" class="btn btn-danger btn-sm">Eliminar</button>
+                    </div>
+                </div>
+                
+                <input type="submit" class="btn btn-primary" value="Actualizar">
+            </form>
+        </div>
+    </div>
+</div>

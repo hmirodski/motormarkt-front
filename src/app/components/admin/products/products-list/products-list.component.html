@@ -1,0 +1,37 @@
+<app-menu></app-menu>
+
+<div class="container ">
+    <button type="button" class="btn btn-secondary margin" [routerLink]="['/admin/products/new']">Nuevo producto</button>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Referencia</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Categoría</th>
+            <th scope="col">Fecha creación</th>
+          </tr>
+        </thead>
+        <tbody>  
+          <tr *ngFor="let product of arrProducts()" [routerLink]="['/admin/products', product.id]">
+            <th scope="row">{{ product.id }}</th>
+            <td>{{ product.reference }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.price }} €</td>
+            <td>{{ product.quantity }}</td>
+            <td>{{ product.category?.name }}</td>
+            <td>{{ product.created_at | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+          </tr>
+        </tbody>
+    </table>
+  
+    <nav aria-label="Page navigation example">
+      <small>Página {{ currentPage }} de {{ getTotalPages() }}</small>
+      <ul class="pagination">
+        <li class="page-item" ><button class="page-link" (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button></li>
+        <li class="page-item"><button class="page-link" (click)="nextPage()" [disabled]="currentPage === getTotalPages()">Siguiente</button></li>
+      </ul>
+    </nav>
+</div>

@@ -1,0 +1,159 @@
+<app-menu></app-menu>
+
+<div class="container margin">
+    <div class="row">
+        <div class="col-xl-8">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <div class="row align-items-center">
+                        <div class="col-md-3">
+                            <div class="text-center border-end">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png" class="img-fluid avatar-xxl rounded-circle" alt="">
+                            </div>
+                        </div><!-- end col -->
+                        <div class="col-md-9">
+                            <div class="ms-3">
+                                <div>
+                                    <h4 class="card-title mb-2">{{ user().name }}</h4>
+            
+                                </div>
+                                <div class="row my-4">
+                                    <div class="col-md-12">
+                                        <div>
+                                            <p class="text-muted mb-2 fw-medium"><i class="mdi mdi-email-outline me-2"></i>{{ user().email }}
+                                            </p>
+                                            <button type="button" class="btn btn-info btn-sm" [routerLink]="['/admin/users/edit', user().id]">Editar</button>
+                                            <button type="button" class="btn btn-danger btn-sm" (click)="onClickDelete(user().id)">Eliminar</button>
+                                        </div>
+                                    </div><!-- end col -->
+                                </div><!-- end row -->
+                             
+                                <ul class="nav nav-tabs nav-tabs-custom border-bottom-0 mt-3 nav-justfied" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link px-4 active" data-bs-toggle="tab" href="#tasks-tab" role="tab" aria-selected="false" tabindex="-1">
+                                            <span class="d-block d-sm-none"><i class="mdi mdi-menu-open"></i></span>
+                                            <span class="d-none d-sm-block">Pedidos</span>
+                                        </a>
+                                    </li><!-- end li -->
+                                    
+                                </ul><!-- end ul -->
+                            </div>
+                        </div><!-- end col -->
+                    </div><!-- end row -->
+                </div><!-- end card body -->
+            </div><!-- end card -->
+    
+            <div class="card">
+                <div class="tab-content p-4">
+                    
+    
+                    <div class="tab-pane active show" id="tasks-tab" role="tabpanel">
+                        <h4 class="card-title mb-4">Pedidos</h4>
+    
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <table class="table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Referencia</th>
+                                            <th scope="col">Pago</th>
+                                            <th scope="col">Total</th>
+                                            <th scope="col">Fecha</th>
+                                            <th scope="col">Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let order of arrOrders()" [routerLink]="['/admin/orders', order.id]">         
+                                            <th>{{ order.reference }}</th>
+                                            <td>{{ order.payment }}</td>
+                                            <td><strong>{{ order.total_price }} €</strong></td>
+                                            <td>{{ order.created_at | date:'yyyy-MM-dd' }}</td>
+                                            <td><span class="badge badge-warning" style="background-color: {{ order.current_state?.color }};">{{ order.current_state?.name }}</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div><!-- end col -->
+                        </div><!-- end row -->
+                        <nav aria-label="Page navigation example">
+                            <small>Página {{ currentPage }} de {{ getTotalPages() }}</small>
+                            <ul class="pagination">
+                              <li class="page-item" ><button class="page-link" (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button></li>
+                              <li class="page-item"><button class="page-link" (click)="nextPage()" [disabled]="currentPage === getTotalPages()">Siguiente</button></li>
+                            </ul>
+                          </nav>
+                    </div><!-- end tab pane -->
+    
+                    
+                </div>
+            </div><!-- end card -->
+        </div><!-- end col -->
+    
+        <div class="col-xl-4">
+    
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <h4 class="card-title mb-4">Datos personales</h4>
+                        <div class="table-responsive">
+                            <table class="table table-bordered mb-0">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row" style="font-size: smaller;">Nombre</th>
+                                        <td><small>{{ user().name }}</small></td>
+                                    </tr><!-- end tr -->
+                                    <tr>
+                                        <th scope="row" style="font-size: smaller;">Email</th>
+                                        <td><small>{{ user().email }}</small></td>
+                                    </tr><!-- end tr -->
+                                    <tr>
+                                        <th scope="row" style="font-size: smaller;">Dirección 1</th>
+                                        <td><small>{{ user().address1 }}</small></td>
+                                    </tr><!-- end tr -->
+                                    <tr>
+                                        <th scope="row" style="font-size: smaller;">Dirección 2</th>
+                                        <td><small>{{ user().address2}}</small></td>
+                                    </tr><!-- end tr -->
+                                    <tr>
+                                        <th scope="row" style="font-size: smaller;">Ciudad</th>
+                                        <td><small>{{ user().city }}</small></td>
+                                    </tr><!-- end tr -->
+                                    <tr>
+                                        <th scope="row" style="font-size: smaller;">CP</th>
+                                        <td><small>{{ user().postcode }}</small></td>
+                                    </tr><!-- end tr -->
+                                    <tr>
+                                        <th scope="row" style="font-size: smaller;">País</th>
+                                        <td><small>{{ user().country }}</small></td>
+                                    </tr><!-- end tr -->
+                                    <tr>
+                                        <th scope="row" style="font-size: smaller;">Teléfono</th>
+                                        <td><small>{{ user().phone }}</small></td>
+                                    </tr><!-- end tr -->
+                                    <tr>
+                                        <th scope="row" style="font-size: smaller;">Activo</th>
+                                        <td *ngIf="user().active"><i class="bx bx-check-circle" style="color: green"></i></td>
+                                        <td *ngIf="!user().active"><i class="bx bx-circle" style="color: red"></i></td>
+                                    </tr><!-- end tr -->
+                                    <tr>
+                                        <th scope="row" style="font-size: smaller;">Admin</th>
+                                        <td *ngIf="user().admin"><i class="bx bx-check-circle" style="color: green"></i></td>
+                                        <td *ngIf="!user().admin"><i class="bx bx-circle" style="color: red"></i></td>
+                                    </tr><!-- end tr -->
+                                    <tr>
+                                        <th scope="row" style="font-size: smaller;">Cliente</th>
+                                        <td *ngIf="user().client"><i class="bx bx-check-circle" style="color: green"></i></td>
+                                        <td *ngIf="!user().client"><i class="bx bx-circle" style="color: red"></i></td>
+                                    </tr><!-- end tr -->
+                                    <tr>
+                                        <th scope="row" style="font-size: smaller;">Fecha creación</th>
+                                        <td><small>{{ user().createdAt | date:'yyyy-MM-dd' }}</small></td>
+                                    </tr><!-- end tr -->
+                                </tbody><!-- end tbody -->
+                            </table><!-- end table -->
+                        </div>
+                    </div>
+                </div><!-- end card body -->
+            </div><!-- end card -->
+        </div><!-- end col -->
+    </div>
+    </div>

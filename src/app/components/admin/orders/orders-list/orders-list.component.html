@@ -1,0 +1,36 @@
+<app-menu></app-menu>
+
+<div class="container ">
+    <table class="table margin">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Referencia</th>
+            <th scope="col">Pago</th>
+            <th scope="col">Precio Total</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+        <tbody>  
+          <tr *ngFor="let order of arrOrders()" [routerLink]="['/admin/orders', order.id]">
+            <th scope="row">{{ order.id }}</th>
+            <td>{{ order.reference }}</td>
+            <td>{{ order.payment }}</td>
+            <td>{{ order.total_price }} €</td>
+            <td>{{ order.user.email }}</td>
+            <td>{{ order.created_at | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+            <td><span class="badge badge-warning" style="background-color: {{ order.current_state?.color }};">{{ order.current_state?.name }}</span></td>
+          </tr>
+        </tbody>
+    </table>
+  
+    <nav aria-label="Page navigation example">
+      <small>Página {{ currentPage }} de {{ getTotalPages() }}</small>
+      <ul class="pagination">
+        <li class="page-item" ><button class="page-link" (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button></li>
+        <li class="page-item"><button class="page-link" (click)="nextPage()" [disabled]="currentPage === getTotalPages()">Siguiente</button></li>
+      </ul>
+    </nav>
+</div>

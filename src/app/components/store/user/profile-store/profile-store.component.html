@@ -1,0 +1,123 @@
+<app-menu-store></app-menu-store>
+
+<section class="my-5">
+    <div class="container">
+        <div class="main-body">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png" alt="Admin"
+                                    class="rounded-circle p-1" width="110">
+                                <div class="mt-3">
+                                    <h4>{{ user().name }}</h4>
+                                    <p class="text-secondary mb-1">{{ user().email }}</p>
+                                </div>
+                            </div>
+                            <div class="list-group list-group-flush text-center mt-4">
+                                <button type="button" class="list-group-item list-group-item-action border-0 active" style="background-color: black;">
+                                    Perfil
+                                </button>
+                                <button type="button" class="list-group-item list-group-item-action border-0" [routerLink]="['/user', userId(), 'orders']">Pedidos</button>
+                                <button type="button" class="list-group-item list-group-item-action border-0" (click)="onClickLogout()">Cerrar sesión</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="top-status">
+                                <h5>Datos usuario</h5>
+                                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="name">Nombre</label>
+                                                <input type="text" class="form-control" formControlName="name">
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="email">Email</label>
+                                                <input type="email" class="form-control" formControlName="email">
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="password">Contraseña</label>
+                                                <input type="password" class="form-control" formControlName="password">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="address1">Dirección 1</label>
+                                                <input type="text" class="form-control" formControlName="address1">
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="address2">Dirección 2</label>
+                                                <input type="text" class="form-control" formControlName="address2">
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="city">Ciudad</label>
+                                                <input type="text" class="form-control" formControlName="city">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="postcode">CP</label>
+                                                <input type="text" class="form-control" formControlName="postcode">
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="country">País</label>
+                                                <input type="text" class="form-control" formControlName="country">
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="phone">Teléfono</label>
+                                                <input type="text" class="form-control" formControlName="phone">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="active">Activo</label>
+                                                <input type="checkbox" class="form-control" formControlName="active">
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="admin">Administrador</label>
+                                                <input type="checkbox" class="form-control" formControlName="admin">
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="client">Cliente</label>
+                                                <input type="checkbox" class="form-control" formControlName="client">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="submit" class="btn btn-dark" value="Actualizar">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

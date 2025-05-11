@@ -1,0 +1,48 @@
+<app-menu-store></app-menu-store>
+
+<div class="container">
+    <div class="card">
+        <div class="container-fliud">
+            <div class="wrapper row">
+                <div class="preview col-md-6">
+                    
+                    <div class="preview-pic tab-content">
+                      <div class="tab-pane active" id="pic-1">
+                            <img *ngIf="arrImagesProduct() && arrImagesProduct().length > 0" src="{{ API_URL() }}/api/v1/images_product/static/{{ arrImagesProduct()[0].name }}" class="img-fluid avatar-xxl rounded-circle" alt="">
+                            <img *ngIf="!arrImagesProduct() || arrImagesProduct().length === 0" src="https://www.4me.com/wp-content/uploads/2018/01/4me-icon-product.png" class="img-fluid avatar-xxl rounded-circle" alt="">
+                        </div>
+                    </div>
+                    <ul class="preview-thumbnail nav nav-tabs" *ngIf="arrImagesProduct() && arrImagesProduct().length > 0">
+                      <li *ngFor="let image of arrImagesProduct()"><a><img src="{{ API_URL() }}/api/v1/images_product/static/{{ image.name }}" /></a></li>
+                    </ul>
+                </div>
+                <div class="details col-md-6">
+                    <h3 class="product-title">{{ product().name }}</h3>
+                    <div class="rating">
+                        <div class="stars">
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                        </div>
+                        <span class="review-no">REF: {{ product().reference }}</span>
+                    </div>
+                    
+                    <h4 class="price">Precio: <span>{{ product().price }} €</span></h4>
+                    <p class="vote"><strong>Categoría: </strong> {{ product().category?.name }}</p>
+                    <h5 class="colors">Stock:
+                        <span>{{ product().quantity }}</span>
+                    </h5>
+                    <div class="action">
+                        <button class="add-to-cart" style="background-color: black;" type="button" (click)="addCart(product())">Añadir al carrito</button>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="description margin">Descripción</h4>
+            <p class="product-description">{{ product().description }}</p>
+        </div>
+    </div>
+    
+</div>

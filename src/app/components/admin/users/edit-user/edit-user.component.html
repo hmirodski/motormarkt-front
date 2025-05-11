@@ -1,0 +1,93 @@
+<app-menu></app-menu>
+
+<div class="container margin">
+    <h3>Editar usuario</h3>
+    <button type="button" class="btn btn-info btn-sm" [routerLink]="['/admin/users', userId()]">Detalle usuario</button>
+    <div class="row">
+        <div class="col-12">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="name">Nombre</label>
+                            <input type="text" class="form-control" formControlName="name">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" formControlName="email">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="password">Contraseña</label>
+                            <input type="password" class="form-control" formControlName="password">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="address1">Dirección 1</label>
+                            <input type="text" class="form-control" formControlName="address1">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="address2">Dirección 2</label>
+                            <input type="text" class="form-control" formControlName="address2">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="city">Ciudad</label>
+                            <input type="text" class="form-control" formControlName="city">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="postcode">CP</label>
+                            <input type="text" class="form-control" formControlName="postcode">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="country">País</label>
+                            <input type="text" class="form-control" formControlName="country">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="phone">Teléfono</label>
+                            <input type="text" class="form-control" formControlName="phone">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="active">Activo</label>
+                            <input type="checkbox" class="form-control" formControlName="active">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="admin">Administrador</label>
+                            <input type="checkbox" class="form-control" formControlName="admin">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="client">Cliente</label>
+                            <input type="checkbox" class="form-control" formControlName="client">
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Actualizar">
+            </form>
+        </div>
+    </div>
+</div>

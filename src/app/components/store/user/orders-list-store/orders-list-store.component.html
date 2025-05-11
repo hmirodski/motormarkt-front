@@ -1,0 +1,57 @@
+<app-menu-store></app-menu-store>
+
+<section class="my-5">
+    <div class="container">
+        <div class="main-body">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="list-group list-group-flush text-center mt-4">
+                                <button type="button" class="list-group-item list-group-item-action border-0" [routerLink]="['/user', user().id]">
+                                    Perfil
+                                </button>
+                                <button type="button" class="list-group-item list-group-item-action border-0 active" style="background-color: black;">Pedidos</button>
+                                <button type="button" class="list-group-item list-group-item-action border-0" (click)="onClickLogout()">Cerrar sesión</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card mt-4">
+                        <div class="card-body p-0 table-responsive">
+                            <h4 class="p-3 mb-0">Pedidos</h4>
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Referencia</th>
+                                        <th scope="col">Pago</th>
+                                        <th scope="col">Total</th>
+                                        <th scope="col">Fecha</th>
+                                        <th scope="col">Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let order of arrOrders()" [routerLink]="['/user', user().id, 'orders', order.id]">         
+                                        <th>{{ order.reference }}</th>
+                                        <td>{{ order.payment }}</td>
+                                        <td><strong>{{ order.total_price }} €</strong></td>
+                                        <td>{{ order.created_at | date:'yyyy-MM-dd' }}</td>
+                                        <td><span class="badge badge-warning" style="background-color: {{ order.current_state?.color }};">{{ order.current_state?.name }}</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <nav aria-label="Page navigation example">
+                        <small>Página {{ currentPage }} de {{ getTotalPages() }}</small>
+                        <ul class="pagination">
+                          <li class="page-item" ><button class="page-link" (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button></li>
+                          <li class="page-item"><button class="page-link" (click)="nextPage()" [disabled]="currentPage === getTotalPages()">Siguiente</button></li>
+                        </ul>
+                      </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
