@@ -42,7 +42,12 @@ export class ImagesProductService {
 
   create(formValue: any){    
     return firstValueFrom(
-      this.httpClient.post<any>(this.baseUrl, formValue)
+      this.httpClient.post<any>(this.baseUrl, formValue).pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error en la petición de subida de imagen:', error);
+          return throwError(error);
+        })
+      )
     );
   }
 

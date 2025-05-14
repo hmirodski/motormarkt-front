@@ -66,37 +66,64 @@ export class EditProductComponent {
   }
 
   async onSubmit() {
-
-    this.form.value.category = {
-      id: parseInt(this.form.value.category)
-    }
-
-
-    if(this.form.status === "INVALID"){
-      this.toastr.error('Revisa el formulario', 'Error', {
-        timeOut: 5000,
-      });
-      return;
-    }     
-
-    const response = await this.productsService.update( this.productId() ,this.form.value);
-    if(!response.error){
-      if(this.form.value.images != null){
-        const images: FileList = this.form.value.images;
-        for (let i = 0; i < images.length; i++) {
-          const formData = new FormData();
-          formData.append('product_id', response.data.id);
-          formData.append('image', images[i], images[i].name);
-
-          const responseImage = await this.imagesProductService.create(formData);
-        }
+    try {
+      // Preparar los datos del producto
+      if (this.form.value.category) {
+        this.form.value.category = {
+          id: parseInt(this.form.value.category)
+        };
       }
-      this.router.navigate(['/admin/products']);
-    }else{
-      this.toastr.error('Revisa el formulario', 'Error', {
+
+      if (this.form.status === "INVALID") {
+        this.toastr.error('Revisa el formulario', 'Error', {
+          timeOut: 5000,
+        });
+        return;
+      }
+
+      // Actualizar el producto
+      const response = await this.productsService.update(this.productId(), this.form.value);
+      
+      if (!response.error) {
+        // Si hay imágenes para subir
+        if (this.form.value.images && this.form.value.images.length > 0) {
+          const images: FileList = this.form.value.images;
+          
+          // Subir cada imagen
+          for (let i = 0; i < images.length; i++) {
+            try {
+              const formData = new FormData();
+              formData.append('product_id', this.productId());
+              formData.append('image', images[i]);
+              
+              // Subir la imagen y esperar la respuesta
+              await this.imagesProductService.create(formData);
+            } catch (error) {
+              console.error('Error al subir la imagen:', error);
+              this.toastr.error('Error al subir la imagen ' + (i + 1), 'Error', {
+                timeOut: 3000,
+              });
+            }
+          }
+        }
+        
+        this.toastr.success('Producto actualizado correctamente', 'Éxito', {
+          timeOut: 3000,
+        });
+        
+        // Recargar las imágenes
+        const images = await this.imagesProductService.getByProductId(this.productId());
+        this.arrImagesProduct.set(images.data);
+      } else {
+        this.toastr.error('Error al actualizar el producto', 'Error', {
+          timeOut: 5000,
+        });
+      }
+    } catch (error) {
+      console.error('Error en el formulario:', error);
+      this.toastr.error('Ha ocurrido un error al procesar el formulario', 'Error', {
         timeOut: 5000,
       });
-      return;
     }
   }
 
@@ -104,8 +131,34 @@ export class EditProductComponent {
     const files: FileList = event.target.files;
 
     if (files.length > 0) {
+      // Verificar el tipo de archivo y tamaño
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        
+        // Verificar el tipo de archivo
+        if (!file.type.match('image/(jpeg|jpg|png)')) {
+          this.toastr.error('Solo se permiten archivos JPG, JPEG o PNG', 'Error', {
+            timeOut: 3000,
+          });
+          event.target.value = null; // Limpiar el input
+          return;
+        }
+        
+        // Verificar el tamaño (1MB = 1048576 bytes)
+        if (file.size > 1048576) {
+          this.toastr.error('El tamaño máximo de archivo es 1MB', 'Error', {
+            timeOut: 3000,
+          });
+          event.target.value = null; // Limpiar el input
+          return;
+        }
+      }
+      
       // Actualiza el valor del campo de archivos en el formulario
       this.form.value.images = files;
+      this.toastr.success(`${files.length} imagen(es) seleccionada(s)`, '', {
+        timeOut: 2000,
+      });
     }    
   }
 
