@@ -29,8 +29,14 @@ export class LoginComponent {
   async onSubmit(){
     try{
       const response = await this.usersService.login(this.form.value);
-      localStorage.setItem('token_admin', response.data.password)
-      this.router.navigate(['/admin/home']);
+      if (response && response.data && response.data.password) {
+        localStorage.setItem('token_admin', response.data.password)
+        this.router.navigate(['/admin/home']);
+      } else {
+        this.toastr.error('Respuesta del servidor incompleta', 'Error', {
+          timeOut: 3000,
+        });
+      }
     }catch(error){
       this.toastr.error('Usuario incorrecto', 'Error', {
         timeOut: 3000,

@@ -33,13 +33,16 @@ export class DetailUserComponent {
       const user = await this.usersService.getById(params['userId']);
       this.user.set(user.data);
 
-      this.orders = await this.ordersService.getByUser(params['userId']);
-      this.orders.forEach(async (element, index) => {
-        const states = await this.statesOrderService.getByOrderId(element.id);
-        element.current_state = states[states.length - 1].state;        
-      });      
-      this.totalItems = this.orders.length;
-      this.loadOrdersPage();      
+      const ordersResponse = await this.ordersService.getByUser(params['userId']);
+      if (ordersResponse && ordersResponse.data) {
+        this.orders = ordersResponse.data;
+        this.orders.forEach(async (element, index) => {
+          const states = await this.statesOrderService.getByOrderId(element.id);
+          element.current_state = states[states.length - 1].state;        
+        });      
+        this.totalItems = this.orders.length;
+        this.loadOrdersPage();
+      }
     })
   }
 

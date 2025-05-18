@@ -31,9 +31,14 @@ export class LoginStoreComponent {
     localStorage.removeItem("cart");
     try {
       const user = await this.usersService.login_client(this.form.value);
-      if(!user.error){
-        localStorage.setItem('user_id_store', user.data.id)
-        localStorage.setItem('token_store', user.data.password)
+      if(!user.error && user.data){
+        // Asegurar que id y password existen antes de guardarlos
+        if (user.data.id) {
+          localStorage.setItem('user_id_store', user.data.id.toString())
+        }
+        if (user.data.password) {
+          localStorage.setItem('token_store', user.data.password)
+        }
         this.router.navigate(['/user', user.data.id]);
       }
       

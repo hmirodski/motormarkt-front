@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import * as constants from "../../constants";
+import { ApiResponse, ProductState } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -15,33 +16,33 @@ export class StatesService {
     this.baseUrl = constants.API_URL + '/api/v1/states';
   }
 
-  getAll() {
+  getAll(): Promise<ProductState[]> {
     return firstValueFrom(
-      this.httpClient.get<any[]>(this.baseUrl)
+      this.httpClient.get<ProductState[]>(this.baseUrl)
     )
   }
 
-  getById(stateId: string){    
+  getById(stateId: string): Promise<ApiResponse<ProductState>> {    
     return firstValueFrom(
-      this.httpClient.get<any>(`${this.baseUrl}/${stateId}`)
+      this.httpClient.get<ApiResponse<ProductState>>(`${this.baseUrl}/${stateId}`)
     )
   }
 
-  create(formValue: any){    
+  create(formValue: Partial<ProductState>): Promise<ApiResponse<ProductState>> {    
     return firstValueFrom(
-      this.httpClient.post<any>(this.baseUrl, formValue)
+      this.httpClient.post<ApiResponse<ProductState>>(this.baseUrl, formValue)
     );
   }
 
-  update(stateId: string, formValue: any){
+  update(stateId: string, formValue: Partial<ProductState>): Promise<ApiResponse<ProductState>> {
     return firstValueFrom(
-      this.httpClient.put<any>(`${this.baseUrl}/${stateId}`, formValue)
+      this.httpClient.put<ApiResponse<ProductState>>(`${this.baseUrl}/${stateId}`, formValue)
     );
   }
 
-  deleteById(stateId: string) {
+  deleteById(stateId: string): Promise<ApiResponse<ProductState>> {
     return firstValueFrom(
-      this.httpClient.delete<any>(`${this.baseUrl}/${stateId}`)
+      this.httpClient.delete<ApiResponse<ProductState>>(`${this.baseUrl}/${stateId}`)
     );
   }
 }

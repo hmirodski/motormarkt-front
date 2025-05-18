@@ -55,7 +55,16 @@ export class EditProductComponent {
       delete product.data.created_at;
       delete product.data.updated_at;      
 
-      product.data.category = product.data.category ? product.data.category.id : null;
+      // Manejo seguro de la categoría
+      let categoryId = null;
+      if (product.data.category) {
+        if (typeof product.data.category === 'object' && product.data.category !== null && 'id' in product.data.category) {
+          categoryId = product.data.category.id;
+        } else if (typeof product.data.category === 'number') {
+          categoryId = product.data.category;
+        }
+      }
+      product.data.category = categoryId ?? undefined;
 
       this.form.setValue(product.data);
     })

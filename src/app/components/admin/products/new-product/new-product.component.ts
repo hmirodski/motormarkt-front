@@ -60,14 +60,18 @@ export class NewProductComponent {
     if(!response.error){
       if(this.form.value.images != null){
         const images: FileList = this.form.value.images;
-        for (let i = 0; i < images.length; i++) {
-          const formData = new FormData();
-          formData.append('product_id', response.data.id);
-          formData.append('image', images[i], images[i].name);
+        if (response.data && response.data.id) {
+          for (let i = 0; i < images.length; i++) {
+            const formData = new FormData();
+            formData.append('product_id', response.data.id.toString());
+            formData.append('image', images[i], images[i].name);
 
-          const responseImage = await this.imagesProductService.create(formData);
+            const responseImage = await this.imagesProductService.create(formData);
+          }
+        } else {
+          console.error('No se pudo obtener el ID del producto creado');
+          this.toastr.warning('No se pudieron subir las imágenes', 'Advertencia');
         }
-
       }
 
       this.router.navigate(['/admin/products']);
